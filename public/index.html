@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#e1e1e3">
-<title>GlassDL</title>
+<title>GlassGrab - Download videos from any link</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23e2b714'/%3E%3Cpath d='M16 7v13M10.500 15l5.500 5.500 5.500-5.500M9 25h14' fill='none' stroke='%23323437' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script>
 try{var s=localStorage.getItem('theme')}catch(e){}
 document.documentElement.dataset.theme=s||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')
@@ -106,6 +107,8 @@ h1{font-family:var(--mono);letter-spacing:-.04em}
 .m i.hd{background:var(--ac);color:var(--act);font-weight:700}
 .sk b{font-size:17px}
 @media(max-width:520px){.pv{flex-direction:column}.th{width:100%}.bar .ghost{display:none}}
+.credit{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:420px;margin:22px auto 0;padding-top:18px;border-top:1px solid rgba(127,127,127,.2);text-align:center;font-size:12px;line-height:1.5;color:var(--t2);opacity:.85}
+.credit b{font:600 12px var(--mono);letter-spacing:.02em;color:var(--t)}
 </style>
 </head>
 <body>
@@ -127,10 +130,11 @@ h1{font-family:var(--mono);letter-spacing:-.04em}
   </div>
   <div id="out" class="anim"><p class="empty" data-i="empty"></p></div>
   <p class="foot" data-i="foot"></p>
+  <p class="credit"><b translate="no">Joel G. Thompson</b><span data-i="credit"></span></p>
 </main>
 <div class="glass" id="t" role="status" aria-live="polite"></div>
 <script>
-const L={en:{doc:'GlassDL - Download videos from any link',h1:'Download videos from any link',sub:'Works with YouTube, Instagram, TikTok, Facebook, X, and thousands of other sites. No ads. No sign-up.',ph:'Paste a video link here',paste:'Paste',go:'Search',empty:'Paste a link, then choose a format.',foot:'For content you own, have a license for, or personal use only. Links and files are never saved.',av:'Video with audio',avh:'Plays everywhere',vo:'Video only',voh:'Best audio is added for you',ao:'Audio only',aoh:'Sound without the video',upto:'Up to ',one:'1 format',many:' formats',aud:'audio',best:'Best quality',compat:'Most compatible',small:'Smallest size',merged:'audio included',about:'about',unk:'size unknown',prep:'Preparing file...',started:'Download started: ',badurl:'Enter a link that starts with http or https',clip:'Allow clipboard access, or paste the link manually',fail:'Could not load the video',retry:'. Check the link or try again.',failprep:'Could not prepare the file',look:'Looking up the video...',wait:'Getting video details and available formats. This usually takes a few seconds.',slow:'Still working. The server may take a little longer to start, please wait.'}};
+const L={en:{doc:'GlassGrab - Download videos from any link',credit:'A just-for-fun side project, built with AI (vibe coding). I hope you like it and find it useful. Thank you, AI!',h1:'Download videos from any link',sub:'Works with YouTube, Instagram, TikTok, Facebook, X, and thousands of other sites. No ads. No sign-up.',ph:'Paste a video link here',paste:'Paste',go:'Search',empty:'Paste a link, then choose a format.',foot:'For content you own, have a license for, or personal use only. Links and files are never saved.',av:'Video with audio',avh:'Plays everywhere',vo:'Video only',voh:'Best audio is added for you',ao:'Audio only',aoh:'Sound without the video',upto:'Up to ',one:'1 format',many:' formats',aud:'audio',best:'Best quality',compat:'Most compatible',small:'Smallest size',merged:'audio included',about:'about',unk:'size unknown',prep:'Preparing file...',started:'Download started: ',badurl:'Enter a link that starts with http or https',clip:'Allow clipboard access, or paste the link manually',fail:'Could not load the video',retry:'. Check the link or try again.',failprep:'Could not prepare the file',look:'Looking up the video...',wait:'Getting video details and available formats. This usually takes a few seconds.',slow:'Still working. The server may take a little longer to start, please wait.'}};
 const E={'Link tidak valid':'Invalid link','Hanya link http/https':'Only http/https links','Alamat tidak diizinkan':'Address not allowed','Video ini privat atau perlu login':'This video is private or requires login','Link ini belum didukung':'This link is not supported yet','Video tidak tersedia':'Video unavailable','Platform membatasi permintaan, coba lagi nanti':'The platform is rate limiting, try again later','File terlalu besar (maks 2 GB)':'File too large (max 2 GB)','Gagal memproses video. Coba lagi nanti.':'Could not process the video. Try again later.','Format tidak valid':'Invalid format','Server sedang sibuk, coba sebentar lagi':'Server is busy, try again shortly','File sudah kedaluwarsa, siapkan ulang':'File expired, prepare it again','Terjadi kesalahan server':'Server error'};
 const $=s=>document.querySelector(s),u=$('#u'),out=$('#out'),tt=$('#t');
 const store=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
